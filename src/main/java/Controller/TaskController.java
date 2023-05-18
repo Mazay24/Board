@@ -1,44 +1,61 @@
 package Controller;
 
 import com.example.board.exception.BusinessException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@Slf4j
 @RestController
-@RequestMapping("Task/")
+@RequestMapping("/task")
 
 public class TaskController {
-    @GetMapping("getTask_name")
-    public String getTask_name() {
+    @GetMapping("/getTask_name")
+    public String getTaskname() {
         return "Всё ОК";
     }
-    @GetMapping("getExecutor")
+    @GetMapping("/getExecutor")
     public String getExecutor() {
         return null;
     }
-    @GetMapping("getTask_status")
-    public String getTask_status() {
+    @GetMapping("/getTask_status")
+    public String getTaskstatus() {
         return null;
     }
-    @PostMapping("postTask_name")
-    public String postTask_name() {
+    @PostMapping("/postTask_name")
+    public String postTaskname() {
         return "";
     }
-    @PostMapping("postExecutor")
+    @PostMapping("/postExecutor")
     public String postExecutor() {
         return "";
     }
-    @PostMapping("postTask_status")
-    public String postTask_status() {
+    @PostMapping("/postTask_status")
+    public String postTaskstatus() {
         return "";
     }
+    @PostMapping("/deleteTask_name")
+    public String deleteTaskname() {
+        return "";
+    }
+    @PostMapping("/deleteExecutor")
+    public String deleteExecutor() {
+        return "";
+    }
+    @PostMapping("/deleteTask_status")
+    public String deleteTaskstatus() {
+        return "";
+    }
+
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<String> handleException (BusinessException exception) {
+    public static ResponseEntity.BodyBuilder handleException (BusinessException exception) {
+        Logger log = LogManager.getLogger(TaskController.class);
         log.error(exception.getMessage(), exception);
-        return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
+        return ResponseEntity.ok();
     }
 
 }

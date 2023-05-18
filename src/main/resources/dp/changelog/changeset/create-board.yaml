@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-board
+      author: Nikita
+      changes:
+        - createTable:
+            tableName: Board
+            columns:
+              - column:
+                  name: id_task
+                  type: integer
+                  constraints:
+                    nullable: false4
+              - column:
+                  name: id_project
+                  type: integer
+                  constraints:
+                    nullable: false4
+              - column:
+                  name: all_tasks
+                  type: integer
+                  constraints:
+                  nullable: false
+              - column:
+                  name: debt
+                  type: integer
+                  constraints:
+                    nullable: false
+
+

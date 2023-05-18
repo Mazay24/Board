@@ -25,7 +25,7 @@ public class ReleaseResponse {
     public Date getEnd() {
         return end;
     }
-    @PostMapping("/Release")
+    @PostMapping("/release")
     public ResponseEntity<ReleaseResponse> createProduct(
             @RequestBody ReleaseRequest request) {
         return null;

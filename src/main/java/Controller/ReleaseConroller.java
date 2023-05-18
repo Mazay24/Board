@@ -1,44 +1,49 @@
 package Controller;
 
 import com.example.board.exception.BusinessException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Date;
 
-@Slf4j
+
 @RestController
-@RequestMapping("Board/")
+@RequestMapping("/board")
 public class ReleaseConroller {
-    @GetMapping("getStart")
+    @GetMapping("/getStart")
     public Date getStart() {
         return null;
     }
-    @GetMapping("getEnd")
+    @GetMapping("/getEnd")
     public Date getEnd() {
         return null;
     }
-    @PostMapping("postStart")
+    @PostMapping("/postStart")
     public Date postStart() {
         return null;
     }
-    @PostMapping("postEnd")
+    @PostMapping("/postEnd")
     public Date postEnd() {
         return null;
     }
-    @DeleteMapping("deleteStart")
+    @DeleteMapping("/deleteStart")
     public Date deleteStart() {
         return null;
     }
-    @DeleteMapping("deleteEnd")
+    @DeleteMapping("/deleteEnd")
     public Date deleteEnd() {
         return null;
     }
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<String> handleException (BusinessException exception) {
+    public static ResponseEntity.BodyBuilder handleException (BusinessException exception) {
+        Logger log = LogManager.getLogger(ReleaseConroller.class);
         log.error(exception.getMessage(), exception);
-        return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
+        return ResponseEntity.ok();
     }
 }

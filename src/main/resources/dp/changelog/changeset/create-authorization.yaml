@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-authorization
+      author: Nikita
+      changes:
+        - createTable:
+            tableName: authorization
+            columns:
+              - column:
+                  name: FullName
+                  type: varchar(75)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: Login
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: Password
+                  type: varchar(50)
+                  constraints:
+                    nullable: false

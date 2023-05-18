@@ -32,7 +32,7 @@ public class TaskResponse {
     public String getTask_status() {
         return task_status;
     }
-    @PostMapping("/Task")
+    @PostMapping("/task")
     public ResponseEntity<TaskResponse> createProduct(
             @RequestBody TaskRequest request) {
         return null;

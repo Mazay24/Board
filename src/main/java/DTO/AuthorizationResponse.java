@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public class AuthorizationResponse {
 
-    private static String fi;
-    private static String login;
-    private static String password;
+    private String fullName;
+    private String login;
+    private String password;
 
     public void setFi(String fi) {
-        this.fi = fi;
+        this.fullName = fullName;
     }
 
     public void setLogin(String login) {
@@ -24,7 +24,7 @@ public class AuthorizationResponse {
     }
 
     public String getFi() {
-        return fi;
+        return fullName;
     }
 
     public String getLogin() {
@@ -34,7 +34,7 @@ public class AuthorizationResponse {
     public String getPassword() {
         return password;
     }
-    @PostMapping("/Authorization")
+    @PostMapping("/authorization")
     public ResponseEntity<AuthorizationResponse> createProduct(
             @RequestBody AuthorizationRequest request) {
         return null;

@@ -1,15 +1,27 @@
-package DTO;
+package com.example.board.enity;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-public class ProjectResponse {
+@Entity
+@Table(name = "Project")
+public class Project {
+    @Id
+    @Column(name = "IDproject", nullable = false)
     private int id_project;
+    @Column(name = "ProjectAutor", nullable = false)
     private String project_author;
+    @Column(name = "ProjectName", nullable = false)
     private String project_name;
+    @Column(name = "ProjectDescription", nullable = false)
     private String project_description;
+    @Column(name = "ProjectStatus", nullable = false)
     private String project_status;
+
+    public Project() {
+    }
 
     public void setId_project(int id_project) {
         this.id_project = id_project;
@@ -49,10 +61,5 @@ public class ProjectResponse {
 
     public String getProject_status() {
         return project_status;
-    }
-    @PostMapping("/project")
-    public ResponseEntity<ProjectResponse> createProduct(
-            @RequestBody ProjectRequest request) {
-        return null;
     }
 }

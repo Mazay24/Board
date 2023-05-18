@@ -32,7 +32,7 @@ public class BoardResponse {
     public int getDebt() {
         return debt;
     }
-    @PostMapping("/Board")
+    @PostMapping("/board")
     public ResponseEntity<BoardResponse> createProduct(
             @RequestBody BoardRequest request) {
         return null;

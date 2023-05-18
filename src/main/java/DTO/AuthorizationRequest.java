@@ -3,12 +3,12 @@ package DTO;
 
 public class AuthorizationRequest {
 
-    private static String fi;
-    private static String login;
-    private static String password;
+    private String fullName;
+    private String login;
+    private String password;
 
-    public void setFi(String fi) {
-        this.fi = fi;
+    public void setFullName(String fi) {
+        this.fullName = fullName;
     }
 
     public void setLogin(String login) {
@@ -19,8 +19,8 @@ public class AuthorizationRequest {
         this.password = password;
     }
 
-    public String getFi() {
-        return fi;
+    public String getFullName() {
+        return fullName;
     }
 
     public String getLogin() {

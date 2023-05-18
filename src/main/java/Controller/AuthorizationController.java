@@ -1,52 +1,59 @@
 package Controller;
 
 import com.example.board.exception.BusinessException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@Slf4j
+
+
 @RestController
-@RequestMapping("Authorization/")
+@RequestMapping("/authorization")
 public class AuthorizationController {
-    @GetMapping("getFi")
-    public String getFi() {
+    Logger log = LogManager.getLogger(AuthorizationController.class);
+    @GetMapping("/getFi")
+    public String getFullName() {
         return null;
     }
-    @GetMapping("getLogin")
+    @GetMapping("/getLogin")
     public String getLogin() {
         return null;
     }
-    @GetMapping("getPassword")
+    @GetMapping("/getPassword")
     public String getPassword() {
         return null;
     }
-    @PostMapping("postFi")
-    public String postFi() {
+    @PostMapping("/postFi")
+    public String postFullName() {
         return null;
     }
-    @PostMapping("postLogin")
+    @PostMapping("/postLogin")
     public String postLogin() {
         return null;
     }
-    @PostMapping("postPassword")
+    @PostMapping("/postPassword")
     public String postPassword() {return null;}
-    @DeleteMapping("deleteFi")
-    public String deleteFi() {
+    @DeleteMapping("/deleteFi")
+    public String deleteFullName() {
         return null;
     }
-    @DeleteMapping("deleteLogin")
+    @DeleteMapping("/deleteLogin")
     public String deleteLogin() {
         return null;
     }
-    @DeleteMapping("deletePassword")
+    @DeleteMapping("/deletePassword")
     public String deletePassword() {
         return null;
     }
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<String> handleException (BusinessException exception) {
+    public ResponseEntity.BodyBuilder handleException (BusinessException exception) {
         log.error(exception.getMessage(), exception);
-        return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
+        return ResponseEntity.ok();
     }
 }
