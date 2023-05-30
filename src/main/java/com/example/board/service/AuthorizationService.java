@@ -1,13 +1,16 @@
 package com.example.board.service;
 
-import com.example.board.enity.Authorization;
+import com.example.board.enity.Authentication;
 
 public interface AuthorizationService {
 
-    Authorization addFullName(Authorization fullName);
-    void deleteFullName(Authorization fullName);
+    Authentication addFullName(Authentication fullName);
+    void deleteFullName(Authentication fullName);
 
-    Authorization addLogin(Authorization login);
+    Authentication addLogin(Authentication login);
 
-    void deleteLogin(Authorization login);
+
+    void user(Authentication login, Authentication password, Authentication fullName);
+
+    void deleteLogin(Authentication login);
 }

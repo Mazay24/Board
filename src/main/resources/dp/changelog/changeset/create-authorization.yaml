@@ -4,10 +4,10 @@ databaseChangeLog:
       author: Nikita
       changes:
         - createTable:
-            tableName: authorization
+            tableName: authentication
             columns:
               - column:
-                  name: FullName
+                  name: Full_name
                   type: varchar(75)
                   constraints:
                     nullable: false

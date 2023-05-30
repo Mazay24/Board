@@ -7,27 +7,27 @@ databaseChangeLog:
             tableName: Project
             columns:
               - column:
-                  name: id_project
+                  name: ID_project
                   type: integer
                   constraints:
                     nullable: false
               - column:
-                  name: project_author
+                  name: Project_author
                   type: varchar
                   constraints:
                     nullable: false
               - column:
-                  name: project_name
+                  name: Project_name
                   type: varchar
                   constraints:
                     nullable: false
               - column:
-                  name: project_description
+                  name: Project_description
                   type: varchar
                   constraints:
                     nullable: false
               - column:
-                  name: project_status
+                  name: Project_status
                   type: varchar
                   constraints:
                     nullable: false

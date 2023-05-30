@@ -7,7 +7,7 @@ databaseChangeLog:
             tableName: Board
             columns:
               - column:
-                  name: id_project
+                  name: ID_tasks
                   type: integer
                   constraints:
                     nullable: false
@@ -17,7 +17,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: end
+                  name: finish
                   type: date
                   constraints:
                     nullable: false

@@ -7,22 +7,22 @@ databaseChangeLog:
             tableName: Board
             columns:
               - column:
-                  name: id_task
+                  name: Id_task
                   type: integer
                   constraints:
                     nullable: false
               - column:
-                  name: task_name
+                  name: Task_name
                   type: varchar
                   constraints:
                     nullable: false
               - column:
-                  name: executor
+                  name: Executor
                   type: varchar
                   constraints:
                     nullable: false
               - column:
-                  name: task_status
+                  name: Task_status
                   type: varchar
                   constraints:
                       nullable: false

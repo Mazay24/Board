@@ -9,22 +9,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.text.DateFormat;
-import java.util.Date;
-
 @Entity
-@Table(name = "Realease")
+@Table(name = "Authentication")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Realease {
+public class Authentication {
     @Id
-    @Column(name = "ID_tasks", nullable = false)
-    private int idTask;
-    @Column(name = "Start", nullable = false)
-    private DateFormat start;
-
-    @Column(name = "Finish", nullable = false)
-    private DateFormat end;
+    @Column(name = "Full_name", nullable = false, length = 70)
+    private String fullName;
+    @Column(name = "Login", nullable = false, length = 50)
+    private String login;
+    @Column(name = "Password", nullable = false, length = 25)
+    private String password;
 }

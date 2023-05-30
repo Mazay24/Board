@@ -7,22 +7,22 @@ databaseChangeLog:
             tableName: Board
             columns:
               - column:
-                  name: id_task
+                  name: ID_tasks
                   type: integer
                   constraints:
                     nullable: false4
               - column:
-                  name: id_project
+                  name: ID_project
                   type: integer
                   constraints:
                     nullable: false4
               - column:
-                  name: all_tasks
+                  name: All_tasks
                   type: integer
                   constraints:
                   nullable: false
               - column:
-                  name: debt
+                  name: Debt
                   type: integer
                   constraints:
                     nullable: false
