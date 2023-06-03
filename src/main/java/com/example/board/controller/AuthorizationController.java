@@ -1,6 +1,6 @@
 package com.example.board.controller;
 
-import com.example.board.DTO.AuthorizationRequest;
+import com.example.board.dto.AuthorizationRequest;
 import com.example.board.service.AuthorizationService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;

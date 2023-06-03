@@ -1,4 +1,4 @@
-package com.example.board.DTO;
+package com.example.board.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.text.DateFormat;
-import java.util.Date;
+
 @Getter
 @Setter
 public class ReleaseRequest {

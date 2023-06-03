@@ -1,7 +1,6 @@
 package com.example.board.service;
 
-import com.example.board.DTO.AuthorizationRequest;
-import com.example.board.enity.Authentication;
+import com.example.board.dto.AuthorizationRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthorizationService {

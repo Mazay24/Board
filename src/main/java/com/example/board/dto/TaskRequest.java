@@ -1,4 +1,4 @@
-package com.example.board.DTO;
+package com.example.board.dto;
 
 import com.example.board.Status;
 import io.swagger.v3.oas.annotations.media.Schema;

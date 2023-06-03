@@ -1,10 +1,7 @@
 package com.example.board.Mapper;
 
-import com.example.board.DTO.BoardRequest;
-import com.example.board.DTO.BoardResponse;
-import com.example.board.DTO.ProjectRequest;
-import com.example.board.DTO.ProjectResponse;
-import com.example.board.enity.Board;
+import com.example.board.dto.ProjectRequest;
+import com.example.board.dto.ProjectResponse;
 import com.example.board.enity.Project;
 import org.mapstruct.Mapper;
 

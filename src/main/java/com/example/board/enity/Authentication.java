@@ -1,6 +1,6 @@
 package com.example.board.enity;
 
-import com.example.board.DTO.AuthorizationRequest;
+import com.example.board.dto.AuthorizationRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

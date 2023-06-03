@@ -1,14 +1,9 @@
 package com.example.board.service.impl;
 
-import com.example.board.DTO.AuthorizationRequest;
+import com.example.board.dto.AuthorizationRequest;
 import com.example.board.enity.Authentication;
-import com.example.board.exception.CommonException;
-import com.example.board.exception.ErrorHandler;
 import com.example.board.repository.AuthorizationRepository;
 import com.example.board.service.AuthorizationService;
-import org.apache.tomcat.util.http.parser.Authorization;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.support.ExceptionMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,7 @@
 package com.example.board.Mapper;
 
-import com.example.board.DTO.ReleaseRequest;
-import com.example.board.DTO.ReleaseResponse;
-import com.example.board.DTO.TaskRequest;
-import com.example.board.DTO.TaskResponse;
-import com.example.board.enity.Realease;
+import com.example.board.dto.TaskRequest;
+import com.example.board.dto.TaskResponse;
 import com.example.board.enity.Task;
 
 public interface TaskMapper {

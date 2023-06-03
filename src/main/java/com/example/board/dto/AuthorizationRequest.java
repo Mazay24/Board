@@ -1,4 +1,4 @@
-package com.example.board.DTO;
+package com.example.board.dto;
 
 
 import com.example.board.enity.Authentication;
@@ -7,10 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Setter
 @Getter
