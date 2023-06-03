@@ -26,6 +26,4 @@ public class Task {
     private String executor;
     @Column(name = "Task_status", nullable = false)
     private Status taskStatus;
-
-
 }

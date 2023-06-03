@@ -24,7 +24,6 @@ public class Realease {
     private int idTask;
     @Column(name = "Start", nullable = false)
     private DateFormat start;
-
     @Column(name = "Finish", nullable = false)
     private DateFormat end;
 }

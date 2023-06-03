@@ -1,40 +1,43 @@
 package com.example.board.controller;
 
 import com.example.board.DTO.AuthorizationRequest;
-import com.example.board.DTO.AuthorizationResponse;
-import com.example.board.exception.Code;
-import com.example.board.exception.CommonException;
+import com.example.board.service.AuthorizationService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @Controller
 @RestController
 @RequestMapping("/authorization")
 public class AuthorizationController {
+    private final AuthorizationService authorizationService;
+
+    public AuthorizationController(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+    }
+
     @Operation(summary = "Получение пользователя")
-    @GetMapping("/info-users")
-    ResponseEntity<?> users(@RequestHeader(value = "fullName")String fullName, @RequestHeader(value = "login")String login){
-        return null;
+    @GetMapping("/{id}/info-users")
+    ResponseEntity<?> users(@PathVariable("id") String login){
+        return authorizationService.getUser(login);
     }
-
     @Operation(summary = "Создание пользователя")
-    @PostMapping("/info-users")
+    @PostMapping("/{id}/info-users")
     ResponseEntity<?> createUser(@Validated @RequestBody AuthorizationRequest authorizationRequest) {
-        return null;
+        return authorizationService.createUser(authorizationRequest);
+    }
+    @PutMapping("/{id}/user")
+    ResponseEntity<?> update(@PathVariable("id") String login, @Validated @RequestBody AuthorizationRequest authorizationRequest){
+
+        return authorizationService.update(login, authorizationRequest);
     }
 
-    @DeleteMapping("/info-users")
-    ResponseEntity<?> deleteUser(){
-        return null;
+    @DeleteMapping("/{id}/info-users")
+    ResponseEntity<?> deleteUser(@PathVariable("id") String login){
+        return authorizationService.delete(login);
     }
 
 

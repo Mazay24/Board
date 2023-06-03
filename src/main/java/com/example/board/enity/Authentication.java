@@ -1,9 +1,7 @@
 package com.example.board.enity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.example.board.DTO.AuthorizationRequest;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +21,12 @@ public class Authentication {
     private String login;
     @Column(name = "Password", nullable = false, length = 25)
     private String password;
+
+    public void setAll(AuthorizationRequest authorizationRequest) {
+        this.login = authorizationRequest.getLogin();
+        this.fullName = authorizationRequest.getFullName();
+        this.password = authorizationRequest.getPassword();
+    }
 }
+
+

@@ -1,46 +1,71 @@
 package com.example.board.service.impl;
 
+import com.example.board.DTO.AuthorizationRequest;
 import com.example.board.enity.Authentication;
+import com.example.board.exception.CommonException;
+import com.example.board.exception.ErrorHandler;
 import com.example.board.repository.AuthorizationRepository;
 import com.example.board.service.AuthorizationService;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.support.ExceptionMessage;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
 
 @Service
 public class AuthorizationServiceImpl implements AuthorizationService {
-    @Autowired
-    private AuthorizationRepository authorizationRepository;
+    private final AuthorizationRepository authorizationRepository;
 
-    @Override
-    public Authentication addFullName(Authentication fullName) {
-        Authentication saveName = authorizationRepository.saveAndFlush(fullName);
-        return saveName;
+    public AuthorizationServiceImpl(AuthorizationRepository authorizationRepository) {
+        this.authorizationRepository = authorizationRepository;
     }
     @Override
-    public void deleteFullName(Authentication fullName){
-        authorizationRepository.delete(fullName);
+    public ResponseEntity<?> getUser(String login) {
+        Authentication authentication = authorizationRepository.findByLogin(login);
+        if (authentication == null) {
+            return new ResponseEntity<>(new Exception("Пользователь не найден"), HttpStatus.NOT_FOUND);
+        } else {
+            System.out.println(authentication);
+            return new ResponseEntity<>(authentication, HttpStatus.OK);
+        }
+    }
+    @Override
+    public ResponseEntity<?> createUser(AuthorizationRequest authorizationRequest) {
+        Authentication authentication = authorizationRepository.findByLogin(authorizationRequest.getLogin());
+        if (authentication == null){
+            authorizationRepository.saveAndFlush(authorizationRequest.toDAO());
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        else{
+            return new ResponseEntity<>(new Exception("Пользователь с таким Логином уже существует"), HttpStatus.CONFLICT);
+        }
+
     }
 
     @Override
-    public Authentication addLogin(Authentication login) {
-        return null;
+    public ResponseEntity<?> update(String login, AuthorizationRequest authorizationRequest) {
+        Authentication authentication = authorizationRepository.findByLogin(login);
+        if (authentication == null) {
+            return new ResponseEntity<>(new Exception("Пользователь не найден"), HttpStatus.NOT_FOUND);
+        } else {
+            authorizationRepository.delete(authentication);
+            authorizationRepository.saveAndFlush(authorizationRequest.toDAO());
+        }
+        return new ResponseEntity<>(authentication, HttpStatus.OK);
     }
 
-
-
     @Override
-    public void user(Authentication login, Authentication password, Authentication fullName){
-        Authentication saveLogin = authorizationRepository.saveAndFlush(login);
-        Authentication savePassword = authorizationRepository.saveAndFlush(password);
-        Authentication saveFullName = authorizationRepository.saveAndFlush(fullName);
-        
-    }
-
-
-    @Override
-    public void deleteLogin(Authentication login){
-        authorizationRepository.delete(login);
+    public ResponseEntity<?> delete(String login) {
+        Authentication authentication = authorizationRepository.findByLogin(login);
+        if (authentication == null) {
+            return new ResponseEntity<>(new Exception("Пользователь не найден"), HttpStatus.NOT_FOUND);
+        } else {
+            authorizationRepository.delete(authentication);
+            return new ResponseEntity<>(authentication, HttpStatus.OK);
+        }
     }
 }
+

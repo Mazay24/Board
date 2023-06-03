@@ -1,16 +1,12 @@
 package com.example.board.service;
 
+import com.example.board.DTO.AuthorizationRequest;
 import com.example.board.enity.Authentication;
+import org.springframework.http.ResponseEntity;
 
 public interface AuthorizationService {
-
-    Authentication addFullName(Authentication fullName);
-    void deleteFullName(Authentication fullName);
-
-    Authentication addLogin(Authentication login);
-
-
-    void user(Authentication login, Authentication password, Authentication fullName);
-
-    void deleteLogin(Authentication login);
+    ResponseEntity<?> getUser(String login);
+    ResponseEntity<?> createUser(AuthorizationRequest authorizationRequest);
+    ResponseEntity<?> update(String login, AuthorizationRequest authorizationRequest);
+    ResponseEntity<?> delete(String login);
 }

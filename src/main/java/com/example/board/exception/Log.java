@@ -5,9 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-
-
-
 @org.springframework.web.bind.annotation.ControllerAdvice
 public class Log {
     @Bean
