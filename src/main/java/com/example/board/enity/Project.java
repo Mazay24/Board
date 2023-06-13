@@ -15,8 +15,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Project {
     @Id
-    @Column(name = "ID_project", nullable = false)
-    private int idProject;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID_project")
+    private Integer idProject;
     @Column(name = "Project_autor", nullable = false)
     private String projectAuthor;
     @Column(name = "Project_name", nullable = false)

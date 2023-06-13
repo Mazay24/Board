@@ -15,16 +15,10 @@ import org.hibernate.annotations.GenericGenerator;
 @NoArgsConstructor
 public class Board {
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "ID_project", nullable = false)
-    private int idProject;
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "ID_tasks", nullable = false)
-    private int idTask;
+    @Column(name = "Project_name", nullable = false)
+    private String nameProject;
     @Column(name = "All_tasks", nullable = false)
-    private int allTasks;
+    private Integer allTasks;
     @Column(name = "Debt", nullable = false)
-    private int debt;
+    private Integer debt;
 }

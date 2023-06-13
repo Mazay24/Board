@@ -3,6 +3,7 @@ package com.example.board.controller;
 import com.example.board.dto.AuthorizationRequest;
 import com.example.board.service.AuthorizationService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -22,22 +23,22 @@ public class AuthorizationController {
     @Operation(summary = "Получение пользователя")
     @GetMapping("/{id}/info-users")
     ResponseEntity<?> users(@PathVariable("id") String login){
-        return authorizationService.getUser(login);
+                return new ResponseEntity<>(authorizationService.getUser(login), HttpStatus.OK);
     }
     @Operation(summary = "Создание пользователя")
-    @PostMapping("/{id}/info-users")
+    @PostMapping("/info-users")
     ResponseEntity<?> createUser(@Validated @RequestBody AuthorizationRequest authorizationRequest) {
-        return authorizationService.createUser(authorizationRequest);
+        return new ResponseEntity<>(authorizationService.createUser(authorizationRequest), HttpStatus.CREATED);
     }
     @PutMapping("/{id}/user")
     ResponseEntity<?> update(@PathVariable("id") String login, @Validated @RequestBody AuthorizationRequest authorizationRequest){
-
-        return authorizationService.update(login, authorizationRequest);
+        return new ResponseEntity<>(authorizationService.update(login, authorizationRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/info-users")
     ResponseEntity<?> deleteUser(@PathVariable("id") String login){
-        return authorizationService.delete(login);
+        authorizationService.delete(login);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

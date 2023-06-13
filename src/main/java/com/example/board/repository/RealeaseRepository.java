@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RealeaseRepository extends JpaRepository<Realease, Integer> {
+public interface RealeaseRepository extends JpaRepository<Realease, String> {
+    Realease findByTaskName(String name);
+
 }

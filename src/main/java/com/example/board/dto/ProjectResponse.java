@@ -1,17 +1,18 @@
-package com.example.board.DTO;
+package com.example.board.dto;
 
 import com.example.board.Status;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 @Getter
 @Setter
+@AllArgsConstructor
 public class ProjectResponse {
-    private int idProject;
     private String projectAuthor;
     private String projectName;
     private String projectDescription;
     private Status projectStatus;
+
+
 }

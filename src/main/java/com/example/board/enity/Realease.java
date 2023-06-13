@@ -1,5 +1,6 @@
 package com.example.board.enity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -20,10 +22,12 @@ import java.util.Date;
 @NoArgsConstructor
 public class Realease {
     @Id
-    @Column(name = "ID_tasks", nullable = false)
-    private int idTask;
+    @Column(name = "Task_name", nullable = false)
+    private String taskName;
     @Column(name = "Start", nullable = false)
-    private DateFormat start;
+    @JsonFormat(pattern="dd-MM-yyyy")
+    private Date start;
     @Column(name = "Finish", nullable = false)
-    private DateFormat end;
+    @JsonFormat(pattern="dd-MM-yyyy")
+    private Date end;
 }

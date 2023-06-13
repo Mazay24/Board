@@ -7,8 +7,8 @@ databaseChangeLog:
             tableName: Board
             columns:
               - column:
-                  name: ID_tasks
-                  type: integer
+                  name: taskName
+                  type: varchar
                   constraints:
                     nullable: false
               - column:

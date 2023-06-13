@@ -1,6 +1,7 @@
 package com.example.board.dto;
 
 import com.example.board.Status;
+import com.example.board.enity.Task;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NonNull;
@@ -18,5 +19,9 @@ public class TaskRequest {
     @Schema(description = "Статус задачи")
     @NonNull
     private Status taskStatus;
+
+    public Task toDAO() {
+        return new Task(null, taskName, executor, taskStatus);
+    }
 }
 

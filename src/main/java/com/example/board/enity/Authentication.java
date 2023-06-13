@@ -21,12 +21,6 @@ public class Authentication {
     private String login;
     @Column(name = "Password", nullable = false, length = 25)
     private String password;
-
-    public void setAll(AuthorizationRequest authorizationRequest) {
-        this.login = authorizationRequest.getLogin();
-        this.fullName = authorizationRequest.getFullName();
-        this.password = authorizationRequest.getPassword();
-    }
 }
 
 

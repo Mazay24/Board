@@ -1,10 +1,7 @@
 package com.example.board.enity;
 
 import com.example.board.Status;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +11,13 @@ import lombok.Setter;
 @Table(name = "Task")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Task {
     @Id
     @Column(name = "ID_tasks", nullable = false)
-    private int idTask;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer idTask;
     @Column(name = "Task_name", nullable = false)
     private String taskName;
     @Column(name = "Executor", nullable = false)

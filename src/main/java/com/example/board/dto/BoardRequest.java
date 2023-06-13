@@ -1,5 +1,7 @@
 package com.example.board.dto;
 
+import com.example.board.enity.Board;
+import com.example.board.enity.Project;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -10,15 +12,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BoardRequest {
-    @Schema(description = "ID задач")
+    @Schema(description = "ID проекта")
     @NonNull
-    @Min(0)
-    private int idTask;
+    private String nameProject;
     @Schema(description = "Количество задач")
     @NonNull
     @Max(100)
-    private int allTasks;
+    private Integer allTasks;
     @Schema(description = "Задолжности")
     @NonNull
-    private int debt;
+    private Integer debt;
+    public Board toDAO(){
+        return new Board(nameProject, allTasks, debt);
+    }
 }
