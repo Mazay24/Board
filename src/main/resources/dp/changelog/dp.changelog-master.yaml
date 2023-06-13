@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - include:
+      file: dp/changelog/changeset/create-authorization.yaml
+  - include:
+      file: dp/changelog/changeset/create-board.yaml
+  - include:
+      file: dp/changelog/changeset/create-project.yaml
+  - include:
+      file: dp/changelog/changeset/create-realease.yaml
+  - include:
+      file: dp/changelog/changeset/create-task.yaml
