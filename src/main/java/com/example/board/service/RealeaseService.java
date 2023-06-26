@@ -1,15 +1,15 @@
 package com.example.board.service;
 
-import com.example.board.dto.BoardRequest;
-import com.example.board.dto.BoardResponse;
 import com.example.board.dto.ReleaseRequest;
 import com.example.board.dto.ReleaseResponse;
-import com.example.board.enity.Realease;
+import com.example.board.dto.TaskRequest;
+
 
 public interface RealeaseService {
-    ReleaseResponse getRealease(String name);
+    ReleaseResponse getRealease(Integer idTask);
     ReleaseResponse createRealease(ReleaseRequest releaseRequest);
-    ReleaseResponse update(String name, ReleaseRequest releaseRequest);
-    public void delete(String name);
+    ReleaseResponse update(Integer idTask, ReleaseRequest releaseRequest);
+    void delete(Integer idTask);
+    ReleaseResponse debtSearch();
 
 }

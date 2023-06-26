@@ -1,9 +1,11 @@
 package com.example.board.dto;
 
-import com.example.board.Status;
+import com.example.board.enums.Status;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+@Data
 
 @Getter
 @Setter

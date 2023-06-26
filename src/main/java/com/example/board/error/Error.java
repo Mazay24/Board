@@ -1,8 +1,7 @@
 package com.example.board.error;
 
-import com.example.board.exception.Code;
+import com.example.board.enums.Code;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import lombok.Builder;
 import lombok.Data;
 

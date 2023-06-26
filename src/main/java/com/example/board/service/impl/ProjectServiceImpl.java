@@ -1,74 +1,77 @@
 package com.example.board.service.impl;
 
+import com.example.board.ProjectMapper;
+import com.example.board.dto.BoardRequest;
 import com.example.board.dto.ProjectRequest;
 import com.example.board.dto.ProjectResponse;
 import com.example.board.enity.Project;
-import com.example.board.exception.Code;
-import com.example.board.exception.CommonException;
+import com.example.board.exception.NotFoundException;
 import com.example.board.repository.ProjectRepository;
+import com.example.board.service.BoardService;
 import com.example.board.service.ProjectService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
+    private final BoardService boardService;
+    private final ProjectMapper mapper = ProjectMapper.INSTANCE;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, BoardService boardService) {
         this.projectRepository = projectRepository;
+        this.boardService = boardService;
     }
 
     @Override
-    public ProjectResponse createProject(ProjectRequest projectRequest) {
-        Project project = projectRepository.findByProjectName(projectRequest.getProjectName());
+    public ProjectResponse createProject(ProjectRequest projectRequest){
+        BoardRequest boardRequest = new BoardRequest();
+        Project project = projectRepository.findByIdProject(projectRequest.getIdProject());
         if (project == null){
-            projectRepository.saveAndFlush(projectRequest.toDAO());
+            projectRepository.saveAndFlush(mapper.toDAO(projectRequest));
+            boardRequest.setAllInfo(projectRequest.getIdProject(),0,0);
+            boardService.createProjectInfo(boardRequest);
         }
         else {
             System.out.println("Такой проект уже существует");
-            throw CommonException.builder().code(Code.PROJECT_ERROR).message("Проект с таким названием уже существует.").httpStatus(HttpStatus.BAD_REQUEST).build();
-
+            throw new NotFoundException("Проект уже существует");
         }
-        return new ProjectResponse(projectRequest.getProjectAuthor(), projectRequest.getProjectName(), projectRequest.getProjectDescription(), projectRequest.getProjectStatus());
+        return mapper.toResponse(projectRequest);
     }
 
 
     @Override
-    public ProjectResponse getProject(String name) {
-        Project project = projectRepository.findByProjectName(name);
+    public ProjectResponse getProject(Integer idProject) {
+        Project project = projectRepository.findByIdProject(idProject);
         if (project == null) {
-            throw CommonException.builder().code(Code.PROJECT_ERROR).message("Проект с таким названием не найден").httpStatus(HttpStatus.BAD_REQUEST).build();
+            throw new NotFoundException("Проект не существует");
         } else {
             System.out.println(project);
-
         }
-        return new ProjectResponse(project.getProjectAuthor(), project.getProjectName(), project.getProjectDescription(), project.getProjectStatus());
+        return mapper.fromEnity(project);
     }
 
     @Override
-    public void delete(String name) {
-        Project project = projectRepository.findByProjectName(name);
+    public void delete(Integer idProject) {
+        Project project = projectRepository.findByIdProject(idProject);
         if (project == null) {
-            throw CommonException.builder().code(Code.PROJECT_ERROR).message("Проект с таким названием не найден").httpStatus(HttpStatus.BAD_REQUEST).build();
+            throw new NotFoundException("Проект не существует");
         }
         else {
             projectRepository.delete(project);
         }
-
     }
 
     @Override
-    public ProjectResponse update(String name, ProjectRequest projectRequest) {
-        Project project = projectRepository.findByProjectName(name);
+    public ProjectResponse update(Integer idProject, ProjectRequest projectRequest) {
+        Project project = projectRepository.findByIdProject(idProject);
         if (project == null) {
-            throw CommonException.builder().code(Code.PROJECT_ERROR).message("Проект с таким названием не найден").httpStatus(HttpStatus.BAD_REQUEST).build();
-
+            throw new NotFoundException("Проект не существует");
         }
         else {
             projectRepository.delete(project);
-            projectRepository.saveAndFlush(projectRequest.toDAO());
+            projectRepository.saveAndFlush(mapper.toDAO(projectRequest));
         }
-        return new ProjectResponse(projectRequest.getProjectAuthor(), projectRequest.getProjectName(), projectRequest.getProjectDescription(), projectRequest.getProjectStatus());
+            return mapper.toResponse(projectRequest);
     }
     }
 

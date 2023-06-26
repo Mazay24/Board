@@ -1,13 +1,20 @@
 package com.example.board.controller;
 
-import com.example.board.dto.AuthorizationRequest;
 import com.example.board.dto.BoardRequest;
+import com.example.board.dto.BoardResponse;
 import com.example.board.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 
 @RestController
@@ -20,25 +27,25 @@ public class BoardController {
     }
 
     @Operation(summary = "Просмотр задач")
-    @GetMapping("/{name}/info-board")
-    ResponseEntity<?> getTask(@PathVariable("name") String name) {
-        return new ResponseEntity<>(boardService.getProjectInfo(name), HttpStatus.OK);
+    @GetMapping("/{idProject}/info-board")
+    ResponseEntity<BoardResponse> getTask(@PathVariable("idProject") Integer idProject) {
+        return ResponseEntity.ok(boardService.getProjectInfo(idProject));
     }
     @Operation(summary = "Создание задач")
     @PostMapping("/task")
-    ResponseEntity<?> postIdtask(@Validated @RequestBody BoardRequest boardRequest) {
-        return new ResponseEntity<>(boardService.createProjectInfo(boardRequest), HttpStatus.CREATED);
+    ResponseEntity<BoardResponse> postIdtask(@Validated @RequestBody BoardRequest boardRequest) {
+        return ResponseEntity.ok(boardService.createProjectInfo(boardRequest));
     }
     @Operation(summary = "Обнавление задач")
-    @PutMapping("/{name}/board")
-    ResponseEntity<?> update(@PathVariable("name") String name, @Validated @RequestBody BoardRequest boardRequest){
-        return new ResponseEntity<>(boardService.update(name, boardRequest), HttpStatus.OK);
+    @PutMapping("/{idProject}/board")
+    ResponseEntity<BoardResponse> update(@PathVariable("idProject") Integer idProject, @Validated @RequestBody BoardRequest boardRequest){
+        return ResponseEntity.ok(boardService.update(idProject, boardRequest));
     }
     @Operation(summary = "Удаление задач")
-    @DeleteMapping("/{name}/task")
-    ResponseEntity<?> deleteTask(@PathVariable("name") String name){
-        boardService.delete(name);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/{idProject}/task")
+    ResponseEntity<?> deleteTask(@PathVariable("idProject") Integer idProject){
+        boardService.delete(idProject);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 }

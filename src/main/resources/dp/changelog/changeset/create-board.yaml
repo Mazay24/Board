@@ -6,6 +6,11 @@ databaseChangeLog:
         - createTable:
             tableName: Board
             columns:
+              - - column:
+                    name: ID_Project
+                    type: integer
+                    constraints:
+                      nullable: false
               - column:
                   name: nameProject
                   type: varchar

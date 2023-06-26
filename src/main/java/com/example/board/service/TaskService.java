@@ -1,12 +1,13 @@
 package com.example.board.service;
 
-import com.example.board.dto.AuthorizationResponse;
+
 import com.example.board.dto.TaskRequest;
 import com.example.board.dto.TaskResponse;
+import com.example.board.dto.ReleaseRequest;
 
 public interface TaskService {
-    TaskResponse getTask(String name);
-    TaskResponse createTask(TaskRequest taskRequest);
-    TaskResponse update(String login, TaskRequest taskRequest);
-    public void delete(String name);
+    TaskResponse getTask(Integer idTask);
+    TaskResponse createTask(TaskRequest taskRequest, ReleaseRequest releaseRequest);
+    TaskResponse update(Integer idTask, TaskRequest taskRequest);
+    void delete(Integer idTask);
 }

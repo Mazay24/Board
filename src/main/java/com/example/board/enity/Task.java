@@ -1,14 +1,16 @@
 package com.example.board.enity;
 
-import com.example.board.Status;
+import com.example.board.enums.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Entity
-@Table(name = "Task")
+@Table(name = "task")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,8 +22,11 @@ public class Task {
     private Integer idTask;
     @Column(name = "Task_name", nullable = false)
     private String taskName;
+    @Column(name = "author", nullable = true)
+    private String author;
     @Column(name = "Executor", nullable = false)
     private String executor;
     @Column(name = "Task_status", nullable = false)
     private Status taskStatus;
+
 }

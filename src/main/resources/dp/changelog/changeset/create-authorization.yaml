@@ -6,6 +6,11 @@ databaseChangeLog:
         - createTable:
             tableName: authentication
             columns:
+              - - column:
+                    name: ID_User
+                    type: integer
+                    constraints:
+                      nullable: false
               - column:
                   name: Full_name
                   type: varchar(75)

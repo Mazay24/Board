@@ -1,24 +1,28 @@
 package com.example.board.enity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "Board")
+@Table(name = "board")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Board {
+public class    Board {
     @Id
-    @Column(name = "Project_name", nullable = false)
-    private String nameProject;
-    @Column(name = "All_tasks", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer idProject;
+    @Column(name = "all_tasks", nullable = false)
     private Integer allTasks;
-    @Column(name = "Debt", nullable = false)
+    @Column(name = "debt", nullable = false)
     private Integer debt;
 }

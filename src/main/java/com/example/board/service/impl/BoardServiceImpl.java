@@ -1,20 +1,18 @@
 package com.example.board.service.impl;
 
-import com.example.board.dto.AuthorizationResponse;
+import com.example.board.BoardMapper;
 import com.example.board.dto.BoardRequest;
 import com.example.board.dto.BoardResponse;
-import com.example.board.enity.Authentication;
 import com.example.board.enity.Board;
-import com.example.board.exception.Code;
-import com.example.board.exception.CommonException;
+import com.example.board.exception.NotFoundException;
 import com.example.board.repository.BoardRepository;
 import com.example.board.service.BoardService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
+    private final BoardMapper mapper = BoardMapper.INSTANCE;
 
     public BoardServiceImpl(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
@@ -22,53 +20,53 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public BoardResponse getProjectInfo(String name) {
-        Board board = boardRepository.findByNameProject(name);
+    public BoardResponse getProjectInfo(Integer idProject) {
+        Board board = boardRepository.findByIdProject(idProject);
         if (board == null){
-            System.out.println("Проект не найден");
-            throw CommonException.builder().code(Code.PROJECT_ERROR).message("Проект с таким названием не найден").httpStatus(HttpStatus.BAD_REQUEST).build();
+            throw new NotFoundException("Проект не найден");
         }
         else {
             System.out.println(board);
         }
-        return new BoardResponse(board.getNameProject(), board.getAllTasks(), board.getDebt());
+        return mapper.fromEnity(board);
     }
 
     @Override
-    public BoardResponse createProjectInfo(BoardRequest boardRequest) {
-        Board board = boardRepository.findByNameProject(boardRequest.getNameProject());
+    public BoardResponse createProjectInfo(BoardRequest boardRequest){
+        Board board = boardRepository.findByIdProject(boardRequest.getIdProject());
         if (board == null){
-            boardRepository.saveAndFlush(boardRequest.toDAO());
+            boardRepository.saveAndFlush(mapper.toDAO(boardRequest));
         }
         else {
-            throw CommonException.builder().code(Code.PROJECT_ERROR).message("Проект с таким названием уже существует").httpStatus(HttpStatus.BAD_REQUEST).build();
+            throw new NotFoundException("Такой пользователь уже существует");
         }
-
-        return new BoardResponse(boardRequest.getNameProject(), boardRequest.getAllTasks(), boardRequest.getDebt());
+        return mapper.toResponse(boardRequest);
     }
 
     @Override
-    public BoardResponse update(String name, BoardRequest boardRequest) {
-        Board board = boardRepository.findByNameProject(name);
+    public BoardResponse update(Integer idProject, BoardRequest boardRequest) {
+        Board board = boardRepository.findByIdProject(idProject);
         if (board == null) {
-            System.out.println("Пользователь не найден");
-            throw CommonException.builder().code(Code.PROJECT_ERROR).message("Проект с таким названием уже существует").httpStatus(HttpStatus.BAD_REQUEST).build();
+            throw new NotFoundException("Проект не найден");
         } else {
+            int allTask = board.getAllTasks() + 1;
+            int debt = board.getDebt();
             boardRepository.delete(board);
-            boardRepository.saveAndFlush(boardRequest.toDAO());
+            boardRequest.setAllInfo(idProject, allTask,debt);
+            boardRepository.saveAndFlush(mapper.toDAO(boardRequest));
         }
-        return new BoardResponse(boardRequest.getNameProject(), boardRequest.getAllTasks(), boardRequest.getDebt());
+        return mapper.toResponse(boardRequest);
     }
 
     @Override
-    public void delete(String name) {
-       Board board = boardRepository.findByNameProject(name);
+    public void delete(Integer idProject) {
+       Board board = boardRepository.findByIdProject(idProject);
         if (board == null) {
-            System.out.println("Пользователь не найден!");
-            throw CommonException.builder().code(Code.PROJECT_ERROR).message("Проект с таким названием не найден").httpStatus(HttpStatus.BAD_REQUEST).build();
+            throw new NotFoundException("Проект не найден");
         } else {
             boardRepository.delete(board);
         }
-
     }
+
+
 }

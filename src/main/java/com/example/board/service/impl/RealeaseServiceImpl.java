@@ -1,71 +1,75 @@
 package com.example.board.service.impl;
 
+
+import com.example.board.ReleaseMapper;
 import com.example.board.dto.*;
-import com.example.board.enity.Authentication;
-import com.example.board.enity.Realease;
-import com.example.board.exception.Code;
-import com.example.board.exception.CommonException;
+import com.example.board.enity.Release;
+import com.example.board.exception.NotFoundException;
 import com.example.board.repository.RealeaseRepository;
 import com.example.board.service.RealeaseService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RealeaseServiceImpl implements RealeaseService {
     private final RealeaseRepository realeaseRepository;
+    private final ReleaseMapper mapper = ReleaseMapper.INSTANCE;
+
+
 
     public RealeaseServiceImpl(RealeaseRepository realeaseRepository) {
         this.realeaseRepository = realeaseRepository;
     }
 
     @Override
-    public ReleaseResponse getRealease(String name) {
-        Realease realease = realeaseRepository.findByTaskName(name);
+    public ReleaseResponse getRealease(Integer idTask) {
+        Release realease = realeaseRepository.findByIdTask(idTask);
         if (realease == null) {
             System.out.println("задача не найдена");
-            throw CommonException.builder().code(Code.TASK_ERROR).message("Задача с таким названием не найден").httpStatus(HttpStatus.BAD_REQUEST).build();
+            throw new NotFoundException("Задача не найдена");
         } else {
             System.out.println(realease);
-
         }
-        return new ReleaseResponse(realease.getTaskName(),realease.getStart(), realease.getEnd());
+        return mapper.fromEnity(realease);
     }
+
+
 
     @Override
     public ReleaseResponse createRealease(ReleaseRequest releaseRequest) {
-        Realease realease = realeaseRepository.findByTaskName(releaseRequest.getTaskName());
-        if (realease == null){
-            realeaseRepository.saveAndFlush(releaseRequest.toDAO());
-        }
-        else {
-            System.out.println("Задача не найдена");
-            throw CommonException.builder().code(Code.TASK_ERROR).message("Задача с таким названием уже существует").httpStatus(HttpStatus.BAD_REQUEST).build();
-
-        }
-        return new ReleaseResponse(releaseRequest.getTaskName(),releaseRequest.getStart(),releaseRequest.getEnd());
+        realeaseRepository.saveAndFlush(mapper.toDAO(releaseRequest));
+        return mapper.toResponse(releaseRequest);
     }
 
     @Override
-    public ReleaseResponse update(String name, ReleaseRequest releaseRequest) {
-        Realease realease = realeaseRepository.findByTaskName(name);
+    public ReleaseResponse update(Integer idTask, ReleaseRequest releaseRequest) {
+        Release realease = realeaseRepository.findByIdTask(idTask);
         if (realease == null) {
-            System.out.println("Задача не найдена");
-            throw CommonException.builder().code(Code.TASK_ERROR).message("Задача с таким названием не найден").httpStatus(HttpStatus.BAD_REQUEST).build();
+            throw new NotFoundException("Задача не найдена");
         } else {
             realeaseRepository.delete(realease);
-            realeaseRepository.saveAndFlush(releaseRequest.toDAO());
+            realeaseRepository.saveAndFlush(mapper.toDAO(releaseRequest));
         }
-        return new ReleaseResponse(releaseRequest.getTaskName(),releaseRequest.getStart(),releaseRequest.getEnd());
+        return mapper.toResponse(releaseRequest);
     }
-
     @Override
-    public void delete(String name) {
-        Realease realease = realeaseRepository.findByTaskName(name);
+    public void delete(Integer idTask) {
+        Release realease = realeaseRepository.findByIdTask(idTask);
         if (realease == null) {
-            System.out.println("Пользователь не найден!");
-            throw CommonException.builder().code(Code.TASK_ERROR).message("Задача с таким названием не найден").httpStatus(HttpStatus.BAD_REQUEST).build();
+            throw new NotFoundException("Задача не найдена");
         } else {
             realeaseRepository.delete(realease);
         }
+    }
+    @Override
+    public ReleaseResponse debtSearch() {
+        List<Release> list = new ArrayList<>();
+        for (int i = 0; i<list.size(); i++){
+            realeaseRepository.findAll();
+
+        }
+        return null;
     }
 }
