@@ -1,29 +1,27 @@
 package com.example.board.service.impl;
 
-import com.example.board.TaskMapper;
+import com.example.board.Mapper.TaskMapper;
 import com.example.board.dto.BoardRequest;
-import com.example.board.dto.ReleaseRequest;
 import com.example.board.dto.TaskRequest;
 import com.example.board.dto.TaskResponse;
 import com.example.board.enity.Task;
 import com.example.board.exception.NotFoundException;
 import com.example.board.repository.TaskRepository;
 import com.example.board.service.BoardService;
-import com.example.board.service.RealeaseService;
 import com.example.board.service.TaskService;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
-    private final RealeaseService realeaseService;
     private final BoardService boardService;
     public TaskMapper mapper = TaskMapper.INSTANCE;
 
-    public TaskServiceImpl(TaskRepository taskRepository, RealeaseService realeaseService, BoardService boardService) {
+    public TaskServiceImpl(TaskRepository taskRepository, BoardService boardService) {
         this.taskRepository = taskRepository;
-        this.realeaseService = realeaseService;
         this.boardService = boardService;
     }
 
@@ -40,15 +38,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskResponse createTask(TaskRequest taskRequest, ReleaseRequest releaseRequest) {
+    public List<Task> getAllTask() {
+        return taskRepository.findAll();
+    }
+
+    @Override
+    public TaskResponse createTask(TaskRequest taskRequest) {
         BoardRequest boardRequest = new BoardRequest();
         Task task = taskRepository.findByIdTask(taskRequest.getIdTask());
         if (task == null){
             taskRepository.saveAndFlush(mapper.toDAO(taskRequest));
-            Integer id = task.getIdTask();
-            releaseRequest.setIdTask(id);
-            realeaseService.createRealease(releaseRequest);
-            //boardService.update(id, boardRequest);
+            boardService.update(402, boardRequest);
         }
         else {
             throw new NotFoundException("Задача уже существует");

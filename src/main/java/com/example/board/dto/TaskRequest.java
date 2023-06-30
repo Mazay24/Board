@@ -1,7 +1,7 @@
 package com.example.board.dto;
 
-import com.example.board.enity.Release;
 import com.example.board.enums.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Getter;
@@ -29,6 +29,14 @@ public class TaskRequest {
     @Schema(description = "Статус задачи")
     @NonNull
     private Status taskStatus;
+    @Schema(description = "Начало задачи")
+    @NonNull
+    @JsonFormat(pattern="dd-MM-yyyy")
+    private Date start;
+    @Schema(description = "Конец задачи")
+    @NonNull
+    @JsonFormat(pattern="dd-MM-yyyy")
+    private Date end;
 
 }
 

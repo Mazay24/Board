@@ -1,4 +1,4 @@
-package com.example.board;
+package com.example.board.Mapper;
 
 import com.example.board.dto.BoardRequest;
 import com.example.board.dto.BoardResponse;

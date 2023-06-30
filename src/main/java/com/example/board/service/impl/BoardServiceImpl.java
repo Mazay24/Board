@@ -1,6 +1,6 @@
 package com.example.board.service.impl;
 
-import com.example.board.BoardMapper;
+import com.example.board.Mapper.BoardMapper;
 import com.example.board.dto.BoardRequest;
 import com.example.board.dto.BoardResponse;
 import com.example.board.enity.Board;
@@ -51,9 +51,13 @@ public class BoardServiceImpl implements BoardService {
         } else {
             int allTask = board.getAllTasks() + 1;
             int debt = board.getDebt();
-            boardRepository.delete(board);
+            board.setAllTasks(allTask);
+            boardRepository.save(board);
+            /*boardRepository.delete(board);
             boardRequest.setAllInfo(idProject, allTask,debt);
             boardRepository.saveAndFlush(mapper.toDAO(boardRequest));
+
+             */
         }
         return mapper.toResponse(boardRequest);
     }

@@ -1,6 +1,6 @@
 package com.example.board.service.impl;
 
-import com.example.board.AuthenticationMapper;
+import com.example.board.Mapper.AuthenticationMapper;
 import com.example.board.controller.ProjectController;
 import com.example.board.dto.AuthorizationRequest;
 import com.example.board.dto.AuthorizationResponse;
@@ -12,7 +12,6 @@ import com.example.board.repository.ProjectRepository;
 import com.example.board.service.AuthorizationService;
 import com.example.board.service.ProjectService;
 import org.springframework.stereotype.Service;
-
 
 
 @Service
@@ -43,7 +42,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public AuthorizationResponse createUser(AuthorizationRequest authorizationRequest, ProjectRequest projectRequest){
-        Authentication authentication = authorizationRepository.findByIdUser(authorizationRequest.getIdUser());
+        Authentication authentication = authorizationRepository.findByLogin(authorizationRequest.getLogin());
         if (authentication == null){
             authorizationRepository.saveAndFlush(mapper.toDAO(authorizationRequest));
             String login = authorizationRequest.getFullName();
@@ -61,10 +60,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         if (authentication == null) {
             throw new NotFoundException("Пользователь не найден");
         } else {
-            authorizationRepository.delete(authentication);
-            authorizationRepository.saveAndFlush(mapper.toDAO(authorizationRequest));
+            authentication.setFullName(authorizationRequest.getFullName());
+            authentication.setLogin(authorizationRequest.getLogin());
+            authentication.setPassword(authorizationRequest.getPassword());
+            authorizationRepository.save(authentication);
         }
-        return mapper.toResponse(authorizationRequest);
+        return mapper.fromEnity(authentication);
     }
 
     @Override
@@ -76,6 +77,18 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             authorizationRepository.delete(authentication);
         }
 
+    }
+
+    @Override
+    public String autoreg(String login, String password) {
+        boolean authentication = authorizationRepository.existsByLoginAndPassword(login, password);
+        if (authentication){
+            System.out.println("Пользователь найден");
+        }
+        else{
+            throw new NotFoundException("Пользователь не найден");
+        }
+        return "Пользователь с логином: " + login + "\nИ паролем: " + password + " cуществует";
     }
 }
 

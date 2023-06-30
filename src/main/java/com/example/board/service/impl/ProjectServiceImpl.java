@@ -1,6 +1,6 @@
 package com.example.board.service.impl;
 
-import com.example.board.ProjectMapper;
+import com.example.board.Mapper.ProjectMapper;
 import com.example.board.dto.BoardRequest;
 import com.example.board.dto.ProjectRequest;
 import com.example.board.dto.ProjectResponse;
@@ -37,7 +37,6 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return mapper.toResponse(projectRequest);
     }
-
 
     @Override
     public ProjectResponse getProject(Integer idProject) {

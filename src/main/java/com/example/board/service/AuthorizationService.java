@@ -9,4 +9,5 @@ public interface AuthorizationService {
     AuthorizationResponse createUser(AuthorizationRequest authorizationRequest, ProjectRequest projectRequest);
     AuthorizationResponse update(Integer idUser, AuthorizationRequest authorizationRequest);
     void delete(Integer idUser);
+    String autoreg(String login, String password);
 }

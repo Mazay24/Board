@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 
 @Entity
 @Table(name = "task")
@@ -28,5 +30,10 @@ public class Task {
     private String executor;
     @Column(name = "Task_status", nullable = false)
     private Status taskStatus;
-
+    @Column(name = "start", nullable = false)
+    @JsonFormat(pattern="dd-MM-yyyy")
+    private Date start;
+    @Column(name = "finish", nullable = false)
+    @JsonFormat(pattern="dd-MM-yyyy")
+    private Date end;
 }

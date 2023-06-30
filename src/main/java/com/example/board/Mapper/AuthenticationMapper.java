@@ -1,4 +1,4 @@
-package com.example.board;
+package com.example.board.Mapper;
 
 import com.example.board.dto.AuthorizationRequest;
 import com.example.board.dto.AuthorizationResponse;

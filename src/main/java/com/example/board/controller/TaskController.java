@@ -1,8 +1,8 @@
 package com.example.board.controller;
 
-import com.example.board.dto.ReleaseRequest;
 import com.example.board.dto.TaskRequest;
 import com.example.board.dto.TaskResponse;
+import com.example.board.enity.Task;
 import com.example.board.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/task")
 public class TaskController {
@@ -25,18 +27,22 @@ public class TaskController {
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
-@PutMapping("/{idTask}/Task")
+    @GetMapping("/task")
+    ResponseEntity<List<Task>> getAllTask(){
+        return ResponseEntity.ok(taskService.getAllTask());
+    }
+    @PutMapping("/{idTask}/Task")
     ResponseEntity<TaskResponse> updateTask(@PathVariable("idTask") Integer idTask, @Validated @RequestBody TaskRequest taskRequest) {
-    return new ResponseEntity<>(taskService.update(idTask, taskRequest), HttpStatus.OK);
+    return ResponseEntity.ok(taskService.update(idTask, taskRequest));
 }
     @GetMapping("/{idTask}/getTask_name")
     ResponseEntity<TaskResponse> getTask(@PathVariable("idTask") Integer idTask){
-        return new ResponseEntity<>(taskService.getTask(idTask),HttpStatus.OK);
+        return ResponseEntity.ok(taskService.getTask(idTask));
     }
     @Operation(summary = "Создание задачи")
     @PostMapping("/task")
-    ResponseEntity<TaskResponse> createTask(@Validated @RequestBody  ReleaseRequest releaseRequest, TaskRequest taskRequest) {
-        return new ResponseEntity<>(taskService.createTask(taskRequest, releaseRequest), HttpStatus.CREATED);
+    ResponseEntity<TaskResponse> createTask(@Validated @RequestBody  TaskRequest taskRequest) {
+        return ResponseEntity.ok(taskService.createTask(taskRequest));
     }
         @Operation(summary = "Удаление задачи")
         @DeleteMapping("{idTask}/task")

@@ -46,6 +46,10 @@ public class AuthorizationController {
             authorizationService.delete(idUser);
             return ResponseEntity.ok(HttpStatus.OK);
     }
+    @GetMapping("/{login}/{password}/auth")
+    ResponseEntity<String> auth(@PathVariable("login") String login, @PathVariable("password") String password){
+        return ResponseEntity.ok(authorizationService.autoreg(login, password));
+    }
 
 
 
