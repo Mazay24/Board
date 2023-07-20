@@ -11,31 +11,30 @@ import com.example.board.repository.AuthorizationRepository;
 import com.example.board.repository.ProjectRepository;
 import com.example.board.service.AuthorizationService;
 import com.example.board.service.ProjectService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class AuthorizationServiceImpl implements AuthorizationService {
+public class AuthorizationServiceImpl implements AuthorizationService, UserDetailsService {
     private final AuthorizationRepository authorizationRepository;
     private final ProjectService projectService;
     private final AuthenticationMapper mapper = AuthenticationMapper.INSTANCE;
-
-
 
     public AuthorizationServiceImpl(AuthorizationRepository authorizationRepository, ProjectService projectService, ProjectRepository projectRepository, ProjectController projectController) {
         this.authorizationRepository = authorizationRepository;
         this.projectService = projectService;
     }
-
     @Override
-    public AuthorizationResponse getUser(Integer idUser){
+    public AuthorizationResponse getUser(Long idUser){
         Authentication authentication = authorizationRepository.findByIdUser(idUser);
         if (authentication == null) {
             System.out.println("Пользователь не найден");
+            throw new NotFoundException("Такой пользователь не существует");
         } else {
             System.out.println(authentication);
-            throw new NotFoundException("Такой пользователь не существует");
-
         }
         return mapper.fromEnity(authentication);
     }
@@ -55,7 +54,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         return mapper.toResponse(authorizationRequest);
     }
     @Override
-    public AuthorizationResponse update(Integer idUser, AuthorizationRequest authorizationRequest){
+    public AuthorizationResponse update(Long idUser, AuthorizationRequest authorizationRequest){
         Authentication authentication = authorizationRepository.findByIdUser(idUser);
         if (authentication == null) {
             throw new NotFoundException("Пользователь не найден");
@@ -69,14 +68,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     @Override
-    public void delete(Integer idUser) {
+    public void delete(Long idUser) {
         Authentication authentication = authorizationRepository.findByIdUser(idUser);
         if (authentication == null) {
             throw new NotFoundException("Пользователь не найден");
         } else {
             authorizationRepository.delete(authentication);
         }
-
     }
 
     @Override
@@ -89,6 +87,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             throw new NotFoundException("Пользователь не найден");
         }
         return "Пользователь с логином: " + login + "\nИ паролем: " + password + " cуществует";
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        Authentication authentication = authorizationRepository.findByLogin(login);
+        if (authentication == null){
+            throw new NotFoundException("Пользователь не найден");
+        }
+        return authentication;
     }
 }
 

@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-
 import java.util.Date;
 
 @Data
@@ -16,7 +15,9 @@ import java.util.Date;
 public class TaskRequest {
     @Schema(description = "ID задачи")
     @NonNull
-    private Integer idTask;
+    private Long idTask;
+    @Schema(description = "id проекта")
+    private Long idProject;
     @Schema(description = "Название задачи")
     @NonNull
     private String taskName;
@@ -37,6 +38,5 @@ public class TaskRequest {
     @NonNull
     @JsonFormat(pattern="dd-MM-yyyy")
     private Date end;
-
 }
 

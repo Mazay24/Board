@@ -1,7 +1,6 @@
 package com.example.board.dto;
 
 
-import com.example.board.enity.Authentication;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Getter;
@@ -13,7 +12,7 @@ import lombok.Setter;
 @Schema(description = "Authorization DTO")
 public class AuthorizationRequest {
     @NonNull
-    private Integer idUser;
+    private Long idUser;
     @Schema(description = "Имя Фамилия, пользователя")
     private String fullName;
     @Schema(description = "Логин")

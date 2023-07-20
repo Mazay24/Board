@@ -12,6 +12,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: ID_project
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
                   name: Task_name
                   type: varchar
                   constraints:

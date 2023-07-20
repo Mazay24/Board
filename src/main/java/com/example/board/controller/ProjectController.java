@@ -26,7 +26,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{idProject}/info-project)")
-    ResponseEntity<ProjectResponse> getProject(@PathVariable("idProject") Integer idProject){
+    ResponseEntity<ProjectResponse> getProject(@PathVariable("idProject") Long idProject){
         return ResponseEntity.ok(projectService.getProject(idProject));
     }
     @Operation(summary = "Создание проекта")
@@ -37,12 +37,12 @@ public class ProjectController {
     }
     @Operation(summary = "Редактирование проекта")
     @PutMapping("/{idProject}/project")
-    ResponseEntity<ProjectResponse> updateProject(@PathVariable("idProject") Integer idProject, @Validated @RequestBody ProjectRequest projectRequest){
+    ResponseEntity<ProjectResponse> updateProject(@PathVariable("idProject") Long idProject, @Validated @RequestBody ProjectRequest projectRequest){
         return ResponseEntity.ok(projectService.update(idProject, projectRequest));
     }
     @Operation(summary = "Удаление проекта")
     @DeleteMapping("/{idProject}/project")
-    ResponseEntity<?> deleteProject(@PathVariable("idProject") Integer idProject){
+    ResponseEntity<?> deleteProject(@PathVariable("idProject") Long idProject){
         projectService.delete(idProject);
         return ResponseEntity.ok(HttpStatus.OK);
     }

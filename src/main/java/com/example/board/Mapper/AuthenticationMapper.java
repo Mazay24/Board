@@ -12,7 +12,4 @@ public interface AuthenticationMapper{
     Authentication toDAO(AuthorizationRequest authorizationRequest);
     AuthorizationResponse toResponse(AuthorizationRequest authorizationRequest);
     AuthorizationResponse fromEnity(Authentication authentication);
-
-
-
 }

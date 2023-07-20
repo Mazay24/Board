@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 @Slf4j
 @RestControllerAdvice
 public class CustomExceptionHandler extends Throwable {
@@ -23,5 +22,10 @@ public class CustomExceptionHandler extends Throwable {
     public ResponseEntity handle(BadRequestException badRequestException){
         log.error(badRequestException.getMessage(), badRequestException);
         return new ResponseEntity(badRequestException.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler
+    public ResponseEntity handle(ForbiddenException forbiddenException) {
+        log.error(forbiddenException.getMessage(), forbiddenException);
+        return new ResponseEntity(forbiddenException.getMessage(), HttpStatus.FORBIDDEN);
     }
 }

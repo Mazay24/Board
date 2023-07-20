@@ -2,12 +2,16 @@ package com.example.board.enity;
 
 import com.example.board.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 
@@ -20,8 +24,10 @@ import java.util.Date;
 public class Task {
     @Id
     @Column(name = "ID_tasks", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idTask;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idTask;
+    @Column(name = "ID_project")
+    private Long idProject;
     @Column(name = "Task_name", nullable = false)
     private String taskName;
     @Column(name = "author", nullable = true)

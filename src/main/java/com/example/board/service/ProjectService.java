@@ -5,7 +5,7 @@ import com.example.board.dto.ProjectResponse;
 
 public interface ProjectService {
     ProjectResponse createProject(ProjectRequest projectRequest);
-    ProjectResponse getProject(Integer idProject);
-    void delete(Integer idProject);
-    ProjectResponse update(Integer idProject, ProjectRequest projectRequest);
+    ProjectResponse getProject(Long idProject);
+    void delete(Long idProject);
+    ProjectResponse update(Long idProject, ProjectRequest projectRequest);
 }

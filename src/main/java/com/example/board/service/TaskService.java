@@ -8,9 +8,12 @@ import com.example.board.enity.Task;
 import java.util.List;
 
 public interface TaskService {
-    TaskResponse getTask(Integer idTask);
+    TaskResponse getTask(Long idTask);
     List<Task> getAllTask();
     TaskResponse createTask(TaskRequest taskRequest);
-    TaskResponse update(Integer idTask, TaskRequest taskRequest);
-    void delete(Integer idTask);
+    TaskResponse update(Long idTask, TaskRequest taskRequest);
+    TaskResponse statusUpdate(Long idTask, TaskRequest taskRequest);
+    //TaskResponse taskCount(Long idProject);
+    TaskResponse projectCompletion(Long idProject);
+    void delete(Long idTask);
 }

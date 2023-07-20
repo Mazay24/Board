@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 @Data
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,6 +14,6 @@ public class ProjectResponse {
     private String projectName;
     private String projectDescription;
     private Status projectStatus;
-
-
+    private int allTasks;
+    private int debt;
 }

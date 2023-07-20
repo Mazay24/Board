@@ -1,15 +1,12 @@
 package com.example.board.service.impl;
 
 import com.example.board.Mapper.TaskMapper;
-import com.example.board.dto.BoardRequest;
 import com.example.board.dto.TaskRequest;
 import com.example.board.dto.TaskResponse;
 import com.example.board.enity.Task;
 import com.example.board.exception.NotFoundException;
 import com.example.board.repository.TaskRepository;
-import com.example.board.service.BoardService;
 import com.example.board.service.TaskService;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,16 +14,15 @@ import java.util.List;
 @Service
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
-    private final BoardService boardService;
+
     public TaskMapper mapper = TaskMapper.INSTANCE;
 
-    public TaskServiceImpl(TaskRepository taskRepository, BoardService boardService) {
+    public TaskServiceImpl(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
-        this.boardService = boardService;
     }
 
     @Override
-    public TaskResponse getTask(Integer idTask) {
+    public TaskResponse getTask(Long idTask) {
         Task task = taskRepository.findByIdTask(idTask);
         if (task == null) {
             throw new NotFoundException("Задача не найдена");
@@ -44,11 +40,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskResponse createTask(TaskRequest taskRequest) {
-        BoardRequest boardRequest = new BoardRequest();
         Task task = taskRepository.findByIdTask(taskRequest.getIdTask());
         if (task == null){
             taskRepository.saveAndFlush(mapper.toDAO(taskRequest));
-            boardService.update(402, boardRequest);
         }
         else {
             throw new NotFoundException("Задача уже существует");
@@ -57,19 +51,56 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskResponse update(Integer idTask, TaskRequest taskRequest) {
+    public TaskResponse update(Long idTask, TaskRequest taskRequest) {
         Task task = taskRepository.findByIdTask(idTask);
         if (task == null) {
             throw new NotFoundException("Задача не найдена");
         } else {
-            taskRepository.delete(task);
+            task.setTaskName(taskRequest.getTaskName());
+            task.setAuthor(taskRequest.getAuthor());
+            task.setExecutor(taskRequest.getExecutor());
+            task.setTaskStatus(taskRequest.getTaskStatus());
+            task.setStart(taskRequest.getStart());
+            task.setEnd(taskRequest.getEnd());
             taskRepository.saveAndFlush(mapper.toDAO(taskRequest));
         }
         return mapper.toResponse(taskRequest);
     }
 
     @Override
-    public void delete(Integer idTask) {
+    public TaskResponse statusUpdate(Long idTask, TaskRequest taskRequest) {
+        Task task = taskRepository.findByIdTask(idTask);
+        if (task == null) {
+            throw new NotFoundException("Задача не найдена");
+        } else {
+            task.setTaskStatus(taskRequest.getTaskStatus());
+            taskRepository.saveAndFlush(mapper.toDAO(taskRequest));
+        }
+        return mapper.toResponse(taskRequest);
+    }
+
+    /*@Override
+    public TaskResponse taskCount(Long idProject) {
+        List<Task> tasksDate = new ArrayList<>();
+        tasksDate = taskRepository.findAllByEnd(idProject);
+
+        if (true) {
+
+        }
+        else {
+
+        }
+        return null;
+    }
+                       Счетчик задолжностей!
+     */
+
+    @Override
+    public TaskResponse projectCompletion(Long idProject) {
+        return null;
+    }
+    @Override
+    public void delete(Long idTask) {
         Task task = taskRepository.findByIdTask(idTask);
         if (task == null) {
             throw new NotFoundException("Задача не найдена");

@@ -5,9 +5,9 @@ import com.example.board.dto.AuthorizationResponse;
 import com.example.board.dto.ProjectRequest;
 
 public interface AuthorizationService {
-    AuthorizationResponse getUser(Integer idUser);
+    AuthorizationResponse getUser(Long idUser);
     AuthorizationResponse createUser(AuthorizationRequest authorizationRequest, ProjectRequest projectRequest);
-    AuthorizationResponse update(Integer idUser, AuthorizationRequest authorizationRequest);
-    void delete(Integer idUser);
+    AuthorizationResponse update(Long idUser, AuthorizationRequest authorizationRequest);
+    void delete(Long idUser);
     String autoreg(String login, String password);
 }

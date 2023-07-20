@@ -25,10 +25,9 @@ public class AuthorizationController {
     public AuthorizationController(AuthorizationService authorizationService) {
         this.authorizationService = authorizationService;
     }
-
     @Operation(summary = "Получение пользователя")
     @GetMapping("/{id}/info-users")
-    ResponseEntity<AuthorizationResponse> users(@PathVariable("id") Integer idUser){
+    ResponseEntity<AuthorizationResponse> users(@PathVariable("id") Long idUser){
             return ResponseEntity.ok(authorizationService.getUser(idUser));
     }
     @Operation(summary = "Создание пользователя")
@@ -37,12 +36,11 @@ public class AuthorizationController {
             return ResponseEntity.ok(authorizationService.createUser(authorizationRequest, projectRequest));
     }
     @PutMapping("/{id}/user")
-    ResponseEntity<AuthorizationResponse> update(@PathVariable("id") Integer idUser, @Validated @RequestBody AuthorizationRequest authorizationRequest) {
+    ResponseEntity<AuthorizationResponse> update(@PathVariable("id") Long idUser, @Validated @RequestBody AuthorizationRequest authorizationRequest) {
             return ResponseEntity.ok(authorizationService.update(idUser, authorizationRequest));
     }
-
     @DeleteMapping("/{id}/info-users")
-    ResponseEntity<?> deleteUser(@PathVariable("id") Integer idUser){
+    ResponseEntity<?> deleteUser(@PathVariable("id") Long idUser){
             authorizationService.delete(idUser);
             return ResponseEntity.ok(HttpStatus.OK);
     }

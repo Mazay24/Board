@@ -1,17 +1,19 @@
 package com.example.board.enity;
 
 import com.example.board.enums.Status;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 
 @Entity
 @Table(name = "project")
@@ -21,10 +23,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_project")
-    private Integer idProject;
-    @Column(name = "project_autor", nullable = false)
+    private Long idProject;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_user")
+    private Authentication idUser;
+    @Column(name = "project_author", nullable = false)
     private String projectAuthor;
     @Column(name = "project_name", nullable = false)
     private String projectName;
@@ -32,4 +37,8 @@ public class Project {
     private String projectDescription;
     @Column(name = "project_status", nullable = false)
     private Status projectStatus;
+    @Column(name = "all_tasks", nullable = false)
+    private Integer allTasks;
+    @Column(name = "debt", nullable = false)
+    private Integer debt;
 }
