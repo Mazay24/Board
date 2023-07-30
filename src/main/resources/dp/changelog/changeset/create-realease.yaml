@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-realease
+      author: Nikita
+      changes:
+        - createTable:
+            tableName: Board
+            columns:
+              - column:
+                  name: ID_Task
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: finish
+                  type: date
+                  constraints:
+                    nullable: false
+

@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-project
+      author: Nikita
+      changes:
+        - createTable:
+            tableName: Project
+            columns:
+              - column:
+                  name: ID_project
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ID_user
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: Project_author
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: Project_name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: Project_description
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: Project_status
+                  type: varchar
+                  constraints:
+                    nullable: false
+
+
+
