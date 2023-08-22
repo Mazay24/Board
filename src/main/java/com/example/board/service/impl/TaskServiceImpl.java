@@ -7,54 +7,66 @@ import com.example.board.enity.Task;
 import com.example.board.exception.NotFoundException;
 import com.example.board.repository.TaskRepository;
 import com.example.board.service.TaskService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     public TaskMapper mapper = TaskMapper.INSTANCE;
 
-    public TaskServiceImpl(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
-    }
 
     @Override
-    public TaskResponse getTask(Long idTask) {
+    public TaskResponse getTask(Integer idTask) {
+        String notFound = String.format("Задача %d не найдена.", idTask);
         Task task = taskRepository.findByIdTask(idTask);
         if (task == null) {
-            throw new NotFoundException("Задача не найдена");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         } else {
-            System.out.println(task);
-
+            return mapper.Enity(task);
         }
-        return mapper.fromEnity(task);
     }
 
     @Override
     public List<Task> getAllTask() {
-        return taskRepository.findAll();
+        String notFound = "Ни одной задачи не найдено";
+        if (taskRepository == null) {
+            log.error(notFound);
+            throw new NotFoundException(notFound);
+        }
+        else{
+            return taskRepository.findAll();
+        }
     }
 
     @Override
     public TaskResponse createTask(TaskRequest taskRequest) {
+        String notFound = String.format("Задача %d уже существует", taskRequest.getIdTask());
         Task task = taskRepository.findByIdTask(taskRequest.getIdTask());
         if (task == null){
-            taskRepository.saveAndFlush(mapper.toDAO(taskRequest));
+            taskRepository.saveAndFlush(mapper.DAO(taskRequest));
         }
         else {
-            throw new NotFoundException("Задача уже существует");
+            log.info(notFound);
+            throw new NotFoundException(notFound);
         }
-        return mapper.toResponse(taskRequest);
+        return mapper.Response(taskRequest);
     }
 
     @Override
-    public TaskResponse update(Long idTask, TaskRequest taskRequest) {
+    public TaskResponse update(Integer idTask, TaskRequest taskRequest) {
+        String notFound = String.format("Задача %d не найдена.", idTask);
         Task task = taskRepository.findByIdTask(idTask);
         if (task == null) {
-            throw new NotFoundException("Задача не найдена");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         } else {
             task.setTaskName(taskRequest.getTaskName());
             task.setAuthor(taskRequest.getAuthor());
@@ -62,25 +74,27 @@ public class TaskServiceImpl implements TaskService {
             task.setTaskStatus(taskRequest.getTaskStatus());
             task.setStart(taskRequest.getStart());
             task.setEnd(taskRequest.getEnd());
-            taskRepository.saveAndFlush(mapper.toDAO(taskRequest));
+            taskRepository.saveAndFlush(mapper.DAO(taskRequest));
         }
-        return mapper.toResponse(taskRequest);
+        return mapper.Response(taskRequest);
     }
 
     @Override
-    public TaskResponse statusUpdate(Long idTask, TaskRequest taskRequest) {
+    public TaskResponse statusUpdate(Integer idTask, TaskRequest taskRequest) {
+        String notFound = String.format("Задача %d не найдена.", idTask);
         Task task = taskRepository.findByIdTask(idTask);
         if (task == null) {
-            throw new NotFoundException("Задача не найдена");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         } else {
             task.setTaskStatus(taskRequest.getTaskStatus());
-            taskRepository.saveAndFlush(mapper.toDAO(taskRequest));
+            taskRepository.saveAndFlush(mapper.DAO(taskRequest));
         }
-        return mapper.toResponse(taskRequest);
+        return mapper.Response(taskRequest);
     }
 
     /*@Override
-    public TaskResponse taskCount(Long idProject) {
+    public TaskResponse taskCount(Integer idProject) {
         List<Task> tasksDate = new ArrayList<>();
         tasksDate = taskRepository.findAllByEnd(idProject);
 
@@ -96,14 +110,16 @@ public class TaskServiceImpl implements TaskService {
      */
 
     @Override
-    public TaskResponse projectCompletion(Long idProject) {
+    public TaskResponse projectCompletion(Integer idProject) {
         return null;
     }
     @Override
-    public void delete(Long idTask) {
+    public void delete(Integer idTask) {
+        String notFound = String.format("Задача %d не найдена.", idTask);
         Task task = taskRepository.findByIdTask(idTask);
         if (task == null) {
-            throw new NotFoundException("Задача не найдена");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         } else {
             taskRepository.delete(task);
         }

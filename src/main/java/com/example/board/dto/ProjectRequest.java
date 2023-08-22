@@ -8,15 +8,14 @@ import lombok.NonNull;
 import lombok.Setter;
 import javax.validation.constraints.Max;
 
-
 @Data
 @Getter
 @Setter
 public class ProjectRequest {
     @NonNull
-    private Long idProject;
+    private Integer idProject;
     @Schema(description = "id пользователя")
-    private Long idUser;
+    private Integer idUser;
     @Schema(description = "Автор проекта")
     private String projectAuthor;
     @Schema(description = "Название проекта")

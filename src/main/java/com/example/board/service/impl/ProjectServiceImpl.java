@@ -3,70 +3,76 @@ package com.example.board.service.impl;
 import com.example.board.Mapper.ProjectMapper;
 import com.example.board.dto.ProjectRequest;
 import com.example.board.dto.ProjectResponse;
+import com.example.board.enity.Authentication;
 import com.example.board.enity.Project;
 import com.example.board.exception.NotFoundException;
 import com.example.board.repository.ProjectRepository;
 import com.example.board.service.ProjectService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMapper mapper = ProjectMapper.INSTANCE;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
-    }
-
     @Override
-    public ProjectResponse createProject(ProjectRequest projectRequest){
+    public ProjectResponse createProject(ProjectRequest projectRequest, Authentication idUser){
+        String exists = String.format("Проект %d уже сущесвует", projectRequest.getIdProject());
         Project project = projectRepository.findByIdProject(projectRequest.getIdProject());
         if (project == null){
-            projectRepository.saveAndFlush(mapper.toDAO(projectRequest));
+            projectRepository.saveAndFlush(mapper.DAO(projectRequest));
         }
         else {
-            System.out.println("Такой проект уже существует");
-            throw new NotFoundException("Проект уже существует");
+            log.error(exists);
+            throw new NotFoundException(exists);
         }
-        return mapper.toResponse(projectRequest);
+        return mapper.Response(projectRequest);
     }
 
     @Override
-    public ProjectResponse getProject(Long idProject) {
+    public ProjectResponse getProject(Integer idProject) {
+        String notFound = String.format("Проект %d не сущесвует", idProject);
         Project project = projectRepository.findByIdProject(idProject);
         if (project == null) {
-            throw new NotFoundException("Проект не существует");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         } else {
-            System.out.println(project);
+            return mapper.Enity(project);
         }
-        return mapper.fromEnity(project);
     }
 
     @Override
-    public void delete(Long idProject) {
+    public void delete(Integer idProject) {
+        String notFound = String.format("Проект %d не сущесвует", idProject);
         Project project = projectRepository.findByIdProject(idProject);
         if (project == null) {
-            throw new NotFoundException("Проект не существует");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         }
         else {
             projectRepository.delete(project);
-        }
-    }
+        }    }
 
     @Override
-    public ProjectResponse update(Long idProject, ProjectRequest projectRequest) {
+    public ProjectResponse update(Integer idProject, ProjectRequest projectRequest) {
+        String notFound = String.format("Проект %d не сущесвует", idProject);
         Project project = projectRepository.findByIdProject(idProject);
         if (project == null) {
-            throw new NotFoundException("Проект не существует");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         }
         else {
             int allTask = project.getAllTasks() + 1;
             int debt = project.getDebt();
             project.setAllTasks(allTask);
             projectRepository.delete(project);
-            projectRepository.saveAndFlush(mapper.toDAO(projectRequest));
+            projectRepository.saveAndFlush(mapper.DAO(projectRequest));
         }
-            return mapper.toResponse(projectRequest);
+            return mapper.Response(projectRequest);
     }
 }
 

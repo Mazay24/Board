@@ -1,16 +1,14 @@
 package com.example.board.service.impl;
 
 import com.example.board.Mapper.AuthenticationMapper;
-import com.example.board.controller.ProjectController;
 import com.example.board.dto.AuthorizationRequest;
 import com.example.board.dto.AuthorizationResponse;
-import com.example.board.dto.ProjectRequest;
 import com.example.board.enity.Authentication;
 import com.example.board.exception.NotFoundException;
 import com.example.board.repository.AuthorizationRepository;
-import com.example.board.repository.ProjectRepository;
 import com.example.board.service.AuthorizationService;
-import com.example.board.service.ProjectService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,82 +16,72 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class AuthorizationServiceImpl implements AuthorizationService, UserDetailsService {
     private final AuthorizationRepository authorizationRepository;
-    private final ProjectService projectService;
     private final AuthenticationMapper mapper = AuthenticationMapper.INSTANCE;
 
-    public AuthorizationServiceImpl(AuthorizationRepository authorizationRepository, ProjectService projectService, ProjectRepository projectRepository, ProjectController projectController) {
-        this.authorizationRepository = authorizationRepository;
-        this.projectService = projectService;
-    }
     @Override
-    public AuthorizationResponse getUser(Long idUser){
+    public AuthorizationResponse getUser(Integer idUser){
+        String notFound = String.format("Пользователь %d не найден.", idUser );
         Authentication authentication = authorizationRepository.findByIdUser(idUser);
         if (authentication == null) {
-            System.out.println("Пользователь не найден");
-            throw new NotFoundException("Такой пользователь не существует");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         } else {
-            System.out.println(authentication);
+            return mapper.Enity(authentication);
         }
-        return mapper.fromEnity(authentication);
     }
 
     @Override
-    public AuthorizationResponse createUser(AuthorizationRequest authorizationRequest, ProjectRequest projectRequest){
+    public AuthorizationResponse createUser(AuthorizationRequest authorizationRequest){
+        String exists = String.format("Пользователь %d уже существует", authorizationRequest.getIdUser());
         Authentication authentication = authorizationRepository.findByLogin(authorizationRequest.getLogin());
         if (authentication == null){
-            authorizationRepository.saveAndFlush(mapper.toDAO(authorizationRequest));
-            String login = authorizationRequest.getFullName();
-            projectRequest.setProjectAuthor(login);
-            projectService.createProject(projectRequest);
+            authorizationRepository.saveAndFlush(mapper.DAO(authorizationRequest));
         }
         else {
-            throw new NotFoundException("Такой пользователь уже существует");
+            log.info(exists);
+            throw new NotFoundException(exists);
         }
-        return mapper.toResponse(authorizationRequest);
+        return mapper.Response(authorizationRequest);
     }
     @Override
-    public AuthorizationResponse update(Long idUser, AuthorizationRequest authorizationRequest){
+    public AuthorizationResponse update(Integer idUser, AuthorizationRequest authorizationRequest){
+        String notFound = String.format("Пользователь %d не найден.", idUser );
         Authentication authentication = authorizationRepository.findByIdUser(idUser);
         if (authentication == null) {
-            throw new NotFoundException("Пользователь не найден");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         } else {
             authentication.setFullName(authorizationRequest.getFullName());
             authentication.setLogin(authorizationRequest.getLogin());
             authentication.setPassword(authorizationRequest.getPassword());
             authorizationRepository.save(authentication);
         }
-        return mapper.fromEnity(authentication);
+        return mapper.Enity(authentication);
     }
 
     @Override
-    public void delete(Long idUser) {
+    public void delete(Integer idUser) {
+        String notFound = String.format("Пользователь %d не найден.", idUser );
         Authentication authentication = authorizationRepository.findByIdUser(idUser);
         if (authentication == null) {
-            throw new NotFoundException("Пользователь не найден");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         } else {
             authorizationRepository.delete(authentication);
         }
     }
 
     @Override
-    public String autoreg(String login, String password) {
-        boolean authentication = authorizationRepository.existsByLoginAndPassword(login, password);
-        if (authentication){
-            System.out.println("Пользователь найден");
-        }
-        else{
-            throw new NotFoundException("Пользователь не найден");
-        }
-        return "Пользователь с логином: " + login + "\nИ паролем: " + password + " cуществует";
-    }
-
-    @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        String notFound = String.format("Пользователь %d не найден.", login );
         Authentication authentication = authorizationRepository.findByLogin(login);
         if (authentication == null){
-            throw new NotFoundException("Пользователь не найден");
+            log.error(notFound);
+            throw new NotFoundException(notFound);
         }
         return authentication;
     }

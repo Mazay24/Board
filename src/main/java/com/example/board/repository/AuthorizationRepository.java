@@ -5,8 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AuthorizationRepository extends JpaRepository<Authentication, Long> {
-    Authentication findByIdUser(Long idUser);
-    boolean existsByLoginAndPassword(String login, String password);
+public interface AuthorizationRepository extends JpaRepository<Authentication, Integer> {
+    Authentication findByIdUser(Integer idUser);
     Authentication findByLogin(String login);
 }

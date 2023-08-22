@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface AuthenticationMapper{
     AuthenticationMapper INSTANCE = Mappers.getMapper(AuthenticationMapper.class);
-    Authentication toDAO(AuthorizationRequest authorizationRequest);
-    AuthorizationResponse toResponse(AuthorizationRequest authorizationRequest);
-    AuthorizationResponse fromEnity(Authentication authentication);
+    Authentication DAO(AuthorizationRequest authorizationRequest);
+    AuthorizationResponse Response(AuthorizationRequest authorizationRequest);
+    AuthorizationResponse Enity(Authentication authentication);
 }

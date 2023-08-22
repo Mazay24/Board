@@ -12,7 +12,7 @@ import lombok.Setter;
 @Schema(description = "Authorization DTO")
 public class AuthorizationRequest {
     @NonNull
-    private Long idUser;
+    private Integer idUser;
     @Schema(description = "Имя Фамилия, пользователя")
     private String fullName;
     @Schema(description = "Логин")

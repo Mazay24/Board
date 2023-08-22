@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface TaskMapper {
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
-    Task toDAO(TaskRequest taskRequest);
-    TaskResponse toResponse(TaskRequest taskRequest);
-    TaskResponse fromEnity(Task task);
+    Task DAO(TaskRequest taskRequest);
+    TaskResponse Response(TaskRequest taskRequest);
+    TaskResponse Enity(Task task);
 }

@@ -7,23 +7,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
-public class CustomExceptionHandler extends Throwable {
-    @org.springframework.web.bind.annotation.ExceptionHandler
+public class CustomExceptionHandler {
+    @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundException.class)
     public ResponseEntity handle(NotFoundException exception) {
         log.error(exception.getMessage(), exception);
         return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
-    @ExceptionHandler
+    @ExceptionHandler(InternalException.class)
     public ResponseEntity handle(InternalException internalException){
         log.error(internalException.getMessage(), internalException);
         return new ResponseEntity(internalException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    @ExceptionHandler
+    @ExceptionHandler(BadRequestException.class)
     public ResponseEntity handle(BadRequestException badRequestException){
         log.error(badRequestException.getMessage(), badRequestException);
         return new ResponseEntity(badRequestException.getMessage(),HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler
+    @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity handle(ForbiddenException forbiddenException) {
         log.error(forbiddenException.getMessage(), forbiddenException);
         return new ResponseEntity(forbiddenException.getMessage(), HttpStatus.FORBIDDEN);

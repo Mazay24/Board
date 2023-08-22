@@ -5,15 +5,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.Date;
 
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class TaskResponse {
-    private Long idTask;
+    private Integer idTask;
     private String taskName;
     private String author;
     private String executor;

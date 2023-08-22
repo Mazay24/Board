@@ -23,7 +23,7 @@ import java.util.Collection;
 public class Authentication implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUser;
+    private Integer idUser;
     @Column(name = "full_name", nullable = false, length = 70)
     private String fullName;
     @Column(name = "login", nullable = false, length = 50)

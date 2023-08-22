@@ -15,9 +15,9 @@ import java.util.Date;
 public class TaskRequest {
     @Schema(description = "ID задачи")
     @NonNull
-    private Long idTask;
+    private Integer idTask;
     @Schema(description = "id проекта")
-    private Long idProject;
+    private Integer idProject;
     @Schema(description = "Название задачи")
     @NonNull
     private String taskName;

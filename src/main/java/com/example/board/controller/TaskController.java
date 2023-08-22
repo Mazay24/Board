@@ -5,6 +5,7 @@ import com.example.board.dto.TaskResponse;
 import com.example.board.enity.Task;
 import com.example.board.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,28 +21,26 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.List;
 
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/tasks")
+@RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
 
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
     @GetMapping("/task")
     ResponseEntity<List<Task>> getAllTask(){
         return ResponseEntity.ok(taskService.getAllTask());
     }
-    @PutMapping("/{idTask}/tasks")
-    ResponseEntity<TaskResponse> updateTask(@PathVariable("idTask") Long idTask, @Validated @RequestBody TaskRequest taskRequest) {
+    @PutMapping("/task/{idTask}")
+    ResponseEntity<TaskResponse> updateTask(@PathVariable("idTask") Integer idTask, @Validated @RequestBody TaskRequest taskRequest) {
         return ResponseEntity.ok(taskService.update(idTask, taskRequest));
     }
     @Operation(summary = "Создание задачи")
-    @PutMapping("/{idTask}/Task")
-    ResponseEntity<TaskResponse> updateStatus(@PathVariable("idTask") Long idTask, @Validated @RequestBody TaskRequest taskRequest) {
+    @PutMapping("/task-status/{idTask}")
+    ResponseEntity<TaskResponse> updateStatus(@PathVariable("idTask") Integer idTask, @Validated @RequestBody TaskRequest taskRequest) {
         return ResponseEntity.ok(taskService.statusUpdate(idTask, taskRequest));
     }
-    @GetMapping("/{idTask}/getTask_name")
-    ResponseEntity<TaskResponse> getTask(@PathVariable("idTask") Long idTask){
+    @GetMapping("/info-task/{idTask}")
+    ResponseEntity<TaskResponse> getTask(@PathVariable("idTask") Integer idTask){
         return ResponseEntity.ok(taskService.getTask(idTask));
     }
     @Operation(summary = "Создание задачи")
@@ -50,13 +49,13 @@ public class TaskController {
         return ResponseEntity.ok(taskService.createTask(taskRequest));
     }
     @Operation(summary = "Удаление задачи")
-    @DeleteMapping("{idTask}/task")
-    ResponseEntity<?> deleteTask(@PathVariable("idTask") Long idTask) {
+    @DeleteMapping("/task/{idTask}")
+    ResponseEntity<?> deleteTask(@PathVariable("idTask") Integer idTask) {
         taskService.delete(idTask);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    /*@PutMapping("/{idProject}/Task")
-    ResponseEntity<TaskResponse> taskCount(@PathVariable("idProject") Long idProject){
+    /*@PutMapping("/task/{idProject}")
+    ResponseEntity<TaskResponse> taskCount(@PathVariable("idProject") Integer idProject){
         return ResponseEntity.ok(taskService.taskCount(idProject));
     }
      */

@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface ProjectMapper {
     ProjectMapper INSTANCE = Mappers.getMapper(ProjectMapper.class);
-    Project toDAO(ProjectRequest projectRequest);
-    ProjectResponse toResponse(ProjectRequest projectRequest);
-    ProjectResponse fromEnity(Project project);
+    Project DAO(ProjectRequest projectRequest);
+    ProjectResponse Response(ProjectRequest projectRequest);
+    ProjectResponse Enity(Project project);
 }
